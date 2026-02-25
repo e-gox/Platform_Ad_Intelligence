@@ -164,5 +164,6 @@ shopping_search_grouped = shopping_search.groupby(['Platform','campaign_type'],a
 shopping_search_grouped['acquisition_rate'] = (shopping_search_grouped['total_conversions'] / shopping_search_grouped['total_impressions'] * 100).map(
     lambda v: f"{v:.2f}%" if pd.notna(v) else "")
 
-shopping_search_grouped['ROI'] = (shopping_search_grouped['total_revenue'] - shopping_search_grouped['total_ad_spend']) / shopping_search_grouped['total_ad_spend'] * 100
+shopping_search_grouped['ROI'] = ((shopping_search_grouped['total_revenue'] - shopping_search_grouped['total_ad_spend']) / shopping_search_grouped['total_ad_spend'] * 100).map(
+    lambda v: f"{v:.2f}%" if pd.notna(v) else "")
 st.write("Audience Acquisition Metrics",shopping_search_grouped)
