@@ -11,7 +11,7 @@ col1, col2, col3, col4, col5 = st.columns([1,1,3,1,1])
 with col3:
     st.title("Platform Performance Analysis")
 st.divider()
-df = pd.read_csv(global_sales_data.csv')
+df = pd.read_csv('global_sales_data.csv')
 df.rename(columns={'platform': 'Platform'}, inplace=True)
 
 
