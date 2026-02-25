@@ -73,8 +73,6 @@ with col1:
     ax1.set_title("Ad Spend vs Revenue by Platform")
     st.pyplot(fig1)
 
-df['ROI'] = ((df['revenue'] - df['ad_spend']) / df['revenue']) * 100
-
 with col2:
     m1, m2, m3,m4, m5 = st.columns(5)
 
