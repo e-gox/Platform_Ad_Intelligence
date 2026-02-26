@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import matplotlib.ticker as mtick
+import plotly.express as px
 st.set_page_config(page_title="Platform Ad Data",
                    layout="wide",
                    initial_sidebar_state="expanded")
@@ -153,6 +154,9 @@ display_video_grouped = (
     .agg(total_impressions=('impressions', 'sum'),total_ad_spend=('ad_spend', 'sum'))
 )
 display_video_grouped['Cost Per Impression'] = display_video_grouped['total_ad_spend'] / display_video_grouped['total_impressions']
+display_video_grouped['ROI'] = ((display_video_grouped['total_revenue'] - display_video_grouped['total_ad_spend']) / display_video_grouped['total_ad_spend']
+                                * 100).map(lambda v: f"{v:.2f}%")
+display_video_grouped['total_revenue'] = display_video_grouped['total_revenue'].map(lambda x: f"${int(x):,}")
 display_video_grouped['total_ad_spend'] = display_video_grouped['total_ad_spend'].map(lambda x: f"{int(x):,}")
 display_video_grouped['total_impressions'] = display_video_grouped['total_impressions'].map(lambda x: f"{int(x):,}")
 st.write("Brand Awareness Metrics",display_video_grouped)
@@ -176,3 +180,30 @@ shopping_search_grouped['total_conversions'] = shopping_search_grouped['total_co
 shopping_search_grouped['total_revenue'] = shopping_search_grouped['total_revenue'].map(lambda x: f"{int(x):,}")
 shopping_search_grouped['total_ad_spend'] = shopping_search_grouped['total_ad_spend'].map(lambda x: f"{int(x):,}")
 st.write("Audience Acquisition Metrics",shopping_search_grouped)
+
+st.divider()
+
+grouped = df.groupby(["country","industry"]).agg(
+    total_spend=("ad_spend", "sum"),
+    total_revenue=("revenue", "sum")
+).reset_index()
+
+grouped["ROI"] = (((grouped["total_revenue"] - grouped["total_spend"]) / grouped["total_spend"]) * 100).round(2)
+
+fig1 = px.sunburst(
+    grouped,
+    path=['country', 'industry'],
+    values='total_spend',
+    color='ROI',
+    color_continuous_scale="RdBu",
+    hover_data={'ROI': ':.2f','total_spend': ':,.0f'},
+)
+fig1.update_traces(textinfo="label+value+percent entry")
+fig1.update_layout(title={'text': "Ad Spend and ROI by Country and Industry", "x":0.5,"y": 1,'xanchor': 'center',
+        'yanchor': 'top'}, title_font_size=24,
+    width=650,
+    height=650,
+    margin=dict(t=40, l=0, r=0, b=0)
+)
+
+st.plotly_chart(fig1, use_container_width=True)
