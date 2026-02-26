@@ -151,19 +151,20 @@ shopping_search = df[df['campaign_type'].isin(["Shopping", "Search"])]
 
 display_video_grouped = (
     display_video.groupby(['Platform', 'campaign_type'], as_index=False)
-    .agg(total_impressions=('impressions', 'sum'),total_ad_spend=('ad_spend', 'sum'))
+    .agg(count=('campaign_type', 'count'),total_revenue=('revenue', 'sum'),total_ad_spend=('ad_spend', 'sum'),total_impressions=('impressions', 'sum'))
 )
 display_video_grouped['Cost Per Impression'] = display_video_grouped['total_ad_spend'] / display_video_grouped['total_impressions']
 display_video_grouped['ROI'] = ((display_video_grouped['total_revenue'] - display_video_grouped['total_ad_spend']) / display_video_grouped['total_ad_spend']
                                 * 100).map(lambda v: f"{v:.2f}%")
 display_video_grouped['total_revenue'] = display_video_grouped['total_revenue'].map(lambda x: f"${int(x):,}")
-display_video_grouped['total_ad_spend'] = display_video_grouped['total_ad_spend'].map(lambda x: f"{int(x):,}")
+display_video_grouped['total_ad_spend'] = display_video_grouped['total_ad_spend'].map(lambda x: f"${int(x):,}")
 display_video_grouped['total_impressions'] = display_video_grouped['total_impressions'].map(lambda x: f"{int(x):,}")
 st.write("Brand Awareness Metrics",display_video_grouped)
 
 st.divider()
 
 shopping_search_grouped = shopping_search.groupby(['Platform','campaign_type'],as_index=False).agg(
+        count=('campaign_type', 'count'),
         total_impressions=('impressions', 'sum'),
         total_conversions=('conversions', 'sum'),
         total_revenue=('revenue', 'sum'),
@@ -171,14 +172,14 @@ shopping_search_grouped = shopping_search.groupby(['Platform','campaign_type'],a
     )
 
 shopping_search_grouped['acquisition_rate'] = (shopping_search_grouped['total_conversions'] / shopping_search_grouped['total_impressions'] * 100).map(
-    lambda v: f"{v:.2f}%" if pd.notna(v) else "")
+    lambda v: f"{v:.2f}%")
 
 shopping_search_grouped['ROI'] = ((shopping_search_grouped['total_revenue'] - shopping_search_grouped['total_ad_spend']) / shopping_search_grouped['total_ad_spend'] * 100).map(
-    lambda v: f"{v:.2f}%" if pd.notna(v) else "")
+    lambda v: f"{v:.2f}%")
 shopping_search_grouped['total_impressions'] = shopping_search_grouped['total_impressions'].map(lambda x: f"{int(x):,}")
 shopping_search_grouped['total_conversions'] = shopping_search_grouped['total_conversions'].map(lambda x: f"{int(x):,}")
-shopping_search_grouped['total_revenue'] = shopping_search_grouped['total_revenue'].map(lambda x: f"{int(x):,}")
-shopping_search_grouped['total_ad_spend'] = shopping_search_grouped['total_ad_spend'].map(lambda x: f"{int(x):,}")
+shopping_search_grouped['total_revenue'] = shopping_search_grouped['total_revenue'].map(lambda x: f"${int(x):,}")
+shopping_search_grouped['total_ad_spend'] = shopping_search_grouped['total_ad_spend'].map(lambda x: f"${int(x):,}")
 st.write("Audience Acquisition Metrics",shopping_search_grouped)
 
 st.divider()
