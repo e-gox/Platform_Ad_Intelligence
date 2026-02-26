@@ -68,6 +68,7 @@ with col1:
         edgecolor="black",
         linewidth=1.2
     )
+    ax1.yaxis.set_major_formatter(mtick.StrMethodFormatter('${x:,.0f}'))
     plt.setp(ax1.get_xticklabels(), rotation=0, ha='center')
     ax1.set_ylabel("Currency")
     ax1.set_title("Ad Spend vs Revenue by Platform")
@@ -91,6 +92,8 @@ with col2:
     fig2, ax2 = plt.subplots(figsize=(8,6))
     sns.scatterplot(df,x='impressions',y='clicks',hue='Platform',ax=ax2,palette=platform_palette,edgecolor="black",
     linewidth=0.6,alpha=0.8,s=40)
+    ax2.yaxis.set_major_formatter(mtick.StrMethodFormatter('{x:,.0f}'))
+    ax2.xaxis.set_major_formatter(mtick.StrMethodFormatter('{x:,.0f}'))
     ax2.set_title("Impressions vs Clicks by Platform")
     ax2.set_ylabel("Clicks")
     ax2.set_xlabel("Impressions")
@@ -150,6 +153,8 @@ display_video_grouped = (
     .agg(total_impressions=('impressions', 'sum'),total_ad_spend=('ad_spend', 'sum'))
 )
 display_video_grouped['Cost Per Impression'] = display_video_grouped['total_ad_spend'] / display_video_grouped['total_impressions']
+display_video_grouped['total_ad_spend'] = display_video_grouped['total_ad_spend'].map(lambda x: f"{int(x):,}")
+display_video_grouped['total_impressions'] = display_video_grouped['total_impressions'].map(lambda x: f"{int(x):,}")
 st.write("Brand Awareness Metrics",display_video_grouped)
 
 st.divider()
@@ -166,4 +171,8 @@ shopping_search_grouped['acquisition_rate'] = (shopping_search_grouped['total_co
 
 shopping_search_grouped['ROI'] = ((shopping_search_grouped['total_revenue'] - shopping_search_grouped['total_ad_spend']) / shopping_search_grouped['total_ad_spend'] * 100).map(
     lambda v: f"{v:.2f}%" if pd.notna(v) else "")
+shopping_search_grouped['total_impressions'] = shopping_search_grouped['total_impressions'].map(lambda x: f"{int(x):,}")
+shopping_search_grouped['total_conversions'] = shopping_search_grouped['total_conversions'].map(lambda x: f"{int(x):,}")
+shopping_search_grouped['total_revenue'] = shopping_search_grouped['total_revenue'].map(lambda x: f"{int(x):,}")
+shopping_search_grouped['total_ad_spend'] = shopping_search_grouped['total_ad_spend'].map(lambda x: f"{int(x):,}")
 st.write("Audience Acquisition Metrics",shopping_search_grouped)
