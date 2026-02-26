@@ -46,16 +46,16 @@ ad_spend_grouped = df.groupby('Platform')['ad_spend'].sum().reset_index()
 with col1:
     m1, m2, m3,m4,m5 = st.columns(5)
 
-    tiktok_roa = df[df['Platform'] == 'TikTok Ads']['ROAS'].mean().round(3)
-    google_roa = df[df['Platform'] == 'Google Ads']['ROAS'].mean().round(3)
-    meta_roa = df[df['Platform'] == 'Meta Ads']['ROAS'].mean().round(3)
+    tiktok_roa = df[df['Platform'] == 'TikTok Ads']['ROAS'].median().round(3)
+    google_roa = df[df['Platform'] == 'Google Ads']['ROAS'].median().round(3)
+    meta_roa = df[df['Platform'] == 'Meta Ads']['ROAS'].median().round(3)
     with m2:
-        st.metric("Google AVG ROAS", google_roa, border=True, width="content")
+        st.metric("Google ROAS", google_roa, border=True, width="content")
 
     with m3:
-        st.metric("Meta AVG ROAS", meta_roa, border=True, width="content")
+        st.metric("Meta ROAS", meta_roa, border=True, width="content")
     with m4:
-        st.metric("TikTok AVG ROAS", tiktok_roa,border=True,width="content")
+        st.metric("TikTok ROAS", tiktok_roa,border=True,width="content")
     st.divider()
     platform_financials = df.groupby("Platform")[["ad_spend", "revenue"]].sum().reset_index()
 
