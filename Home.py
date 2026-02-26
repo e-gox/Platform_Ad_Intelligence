@@ -184,15 +184,17 @@ st.write("Audience Acquisition Metrics",shopping_search_grouped)
 
 st.divider()
 
-grouped = df.groupby(["country","industry"]).agg(
+country_industry = df.groupby(["country","industry"]).agg(
     total_spend=("ad_spend", "sum"),
     total_revenue=("revenue", "sum")
 ).reset_index()
 
-grouped["ROI"] = (((grouped["total_revenue"] - grouped["total_spend"]) / grouped["total_spend"]) * 100).round(0)
+country_industry['total_spend'] = country_industry['total_spend'].round(0)
+
+country_industry["ROI"] = (((country_industry["total_revenue"] - country_industry["total_spend"]) / country_industry["total_spend"]) * 100).round(0)
 
 fig1 = px.sunburst(
-    grouped,
+    country_industry,
     path=['country', 'industry'],
     values='total_spend',
     color='ROI',
