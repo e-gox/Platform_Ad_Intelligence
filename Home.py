@@ -189,7 +189,7 @@ grouped = df.groupby(["country","industry"]).agg(
     total_revenue=("revenue", "sum")
 ).reset_index()
 
-grouped["ROI"] = (((grouped["total_revenue"] - grouped["total_spend"]) / grouped["total_spend"]) * 100).round(2)
+grouped["ROI"] = (((grouped["total_revenue"] - grouped["total_spend"]) / grouped["total_spend"]) * 100).round(0)
 
 fig1 = px.sunburst(
     grouped,
@@ -208,3 +208,4 @@ fig1.update_layout(title={'text': "Ad Spend and ROI by Country and Industry", "x
 )
 
 st.plotly_chart(fig1, use_container_width=True)
+st.caption("Click on a country segment on the above chart to filter")
