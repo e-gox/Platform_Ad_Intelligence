@@ -2,7 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
-
+import matplotlib.ticker as mtick
 st.set_page_config(page_title="Platform Ad Data",
                    layout="wide",
                    initial_sidebar_state="expanded")
