@@ -119,8 +119,11 @@ grouped = (
 skewed_values = df.groupby("Platform")["ROAS"].skew()
 skewed_roas = df['ROAS'].skew()
 st.write("Pearson’s Moment Skewness for ROAS", skewed_roas)
-st.write("Skew by Platform",skewed_values)
-st.write("ROAS Volatility",grouped)
+s1, s2 = st.columns(2)
+with s1:
+    st.write("Skew by Platform",skewed_values)
+with s2:
+    st.write("ROAS Volatility",grouped)
 st.divider()
 cpa_df = df[["Platform", "CPA"]]
 
@@ -209,5 +212,6 @@ fig1.update_layout(title={'text': "Ad Spend and ROI by Country and Industry", "x
     margin=dict(t=40, l=0, r=0, b=0)
 )
 
+
+st.caption("Click on a country segment on the chart to filter")
 st.plotly_chart(fig1, use_container_width=True)
-st.caption("Click on a country segment on the above chart to filter")
