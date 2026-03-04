@@ -314,9 +314,9 @@ recs = [
      "Shifting 15–20% of Google's budget to TikTok could improve blended returns."),
     ("🔍", "Audit Google Ads Display Campaigns",
      "At 216% ROI and a $48.24 median CPA, Google Display is the weakest investment in the portfolio. "
-     "Pause or restructure in favour of Google Search (292% ROI) where intent-based targeting works."),
+     "Pause or restructure in favour of Google Search (292% ROI) where intent based targeting works."),
     ("📈", "Scale Canada E-commerce & India EdTech",
-     "Both combinations exceeded 530% ROI. Increasing spend"
+     "Both combinations exceeded 530% ROI. Increasing spend "
      "campaigns in these markets represents the clearest upside opportunity."),
     ("🇺🇸", "Investigate US Market Performance",
      "3 of the 5 US industry combinations rank in the bottom tier (254–274% ROI). A full creative, "
