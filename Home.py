@@ -7,6 +7,21 @@ import plotly.express as px
 st.set_page_config(page_title="Platform Ad Data",
                    layout="wide",
                    initial_sidebar_state="expanded")
+@st.cache_data
+def load_data():
+    df = pd.read_csv("global_sales_data.csv")
+    df.rename(columns={'platform': 'Platform'}, inplace=True)
+    return df
+  
+@st.cache_data
+def filter_data(df, country, industry):
+    if industry != "All":
+        df = df[df["industry"] == industry]
+    if country != "All":
+        df = df[df["country"] == country]
+    return df
+
+df = load_data()
 
 col1, col2, col3, col4, col5 = st.columns([1,1,3,1,1])
 with col3:
